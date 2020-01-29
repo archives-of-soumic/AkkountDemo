@@ -21,13 +21,13 @@ public class AkountAuthentikator extends AbstractAccountAuthenticator {
     /**
      * @brief: use this to create account. If you see your account in Accounts & Settings, it worked
      * */
-    public void createAccount(String email, String password, String authToken) {
+    public void createAccount(String email, String password, String authToken, Bundle userData) {
         Account account = new Account(email, Const.MY_ACCOUNT_TYPE);
 
         if(am == null){
            am = AccountManager.get(this.mContext);
         }
-        am.addAccountExplicitly(account, password, null);
+        am.addAccountExplicitly(account, password, userData);
         am.setAuthToken(account, Const.MY_AYTH_TOKEN_TYPE, authToken);
     }
 

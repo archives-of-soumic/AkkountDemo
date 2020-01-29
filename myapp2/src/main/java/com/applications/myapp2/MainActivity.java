@@ -1,22 +1,31 @@
 package com.applications.myapp2;
 
 import android.accounts.Account;
+import android.accounts.AccountManager;
+import android.content.Intent;
 import android.os.Bundle;
 
 import com.applications.myakkount.accountutils.AkkountUtils;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
+import android.util.Log;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
 
-public class MainActivity extends AppCompatActivity {
+import static com.applications.myakkount.Const.ARG_IS_ADDING_NEW_ACCOUNT;
+import static com.applications.myakkount.Const.PARAM_USER_PASS;
 
+public class MainActivity extends AppCompatActivity {
+    TextView someTv;
+    int SOME_REQUEST_CODE = 12345;
+    String TAG = MainActivity.class.getCanonicalName();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -24,11 +33,13 @@ public class MainActivity extends AppCompatActivity {
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        TextView someTv = findViewById(R.id.someTv);
+        someTv = findViewById(R.id.someTv);
         Account account = AkkountUtils.getAccount(MainActivity.this, "demo@outlook.com");
         if(account!=null){
             someTv.setText(account.toString());
         }
+        final Intent intent = new Intent(MainActivity.this, com.applications.myakkount.AuthenticatorActivity.class);
+        intent.putExtra(ARG_IS_ADDING_NEW_ACCOUNT,true);
 
         FloatingActionButton fab = findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -36,6 +47,8 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View view) {
                 Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
+
+                startActivityForResult(intent, SOME_REQUEST_CODE);
             }
         });
     }
@@ -60,5 +73,31 @@ public class MainActivity extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(requestCode == SOME_REQUEST_CODE ){
+            Log.e(TAG, "onActivityResult#requestCode == SOME_REQUEST_CODE");
+            if(resultCode == RESULT_OK){
+                Log.e(TAG, "onActivityResult#resultCode == RESULT_OK");
+                if(data != null){
+                    String temp = ""+ data.getStringExtra(AccountManager.KEY_ACCOUNT_NAME)+" "+data.getStringExtra(AccountManager.KEY_ACCOUNT_TYPE)+" "
+                            +data.getStringExtra(AccountManager.KEY_AUTHTOKEN)+" "+data.getStringExtra(PARAM_USER_PASS);
+                    someTv.setText(temp);
+                    Log.e(TAG, temp);
+                }else{
+                    Log.e(TAG, "onActivityResult data == null I guess");
+                }
+            }else{
+                Log.e(TAG, "onActivityResult#resultCode != RESULT_OK");
+
+            }
+
+        }else{
+            Log.e(TAG, "onActivityResult#requestCode != SOME_REQUEST_CODE");
+            Log.e(TAG, "Sth went wrong!");
+        }
     }
 }

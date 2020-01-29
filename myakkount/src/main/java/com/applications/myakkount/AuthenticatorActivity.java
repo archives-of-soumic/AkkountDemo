@@ -128,7 +128,7 @@ private static final String TAG = AuthenticatorActivity.class.getSimpleName();
             if (getIntent().getBooleanExtra(ARG_IS_ADDING_NEW_ACCOUNT, false)) {
                 // Creating the account on the device and setting the auth token we got
                 // (Not setting the auth token will cause another call to the server to authenticate the user)
-                akountAuthentikator.createAccount(accountName, accountPassword, authToken);
+                akountAuthentikator.createAccount(accountName, accountPassword, authToken, null);
 /** /                mAccountManager.addAccountExplicitly(account, accountPassword, null);  // originally ei 2ta chilo
 //                mAccountManager.setAuthToken(account, MY_AYTH_TOKEN_TYPE, authToken);  */
             } else {
