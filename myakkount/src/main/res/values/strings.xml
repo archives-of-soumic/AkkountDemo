@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">myakkount</string>
+    <string name="akount_type">MY.AKOUNT</string>
+    <string name="akount_label">MY.AKOUNT.LABEL</string>
+</resources>

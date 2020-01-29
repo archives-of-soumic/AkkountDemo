@@ -1,0 +1,3 @@
+include ':app', ':myakkount', ':myapp1', ':myapp2'
+rootProject.name='AkkountDemo'
+project(':myakkount').projectDir = new File(settingsDir, './myakkount')

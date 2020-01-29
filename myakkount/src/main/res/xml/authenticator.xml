@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<account-authenticator xmlns:android="http://schemas.android.com/apk/res/android"
+    android:accountType="@string/akount_type"
+    android:icon="@drawable/ic_ridmik"
+    android:smallIcon="@drawable/ic_ridmik"
+    android:label="@string/akount_label"
+    />
+<!--    android:accountPreferences="@xml/prefs"-->
